@@ -7,6 +7,7 @@ import com.example.webSecurityRESTAPI.model.User;
 import com.example.webSecurityRESTAPI.repositories.UserRepository;
 import com.example.webSecurityRESTAPI.services.AuthenticationService;
 import com.example.webSecurityRESTAPI.services.UserService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,12 +28,14 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping
+    @RolesAllowed({"ADMIN"})
     public ResponseEntity<List<User>> getAllUser() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
     }
 
     @PostMapping("/createUser")
+    @RolesAllowed({"ADMIN"})
     public ResponseEntity<User> createNewUser(@RequestBody User user) {
         User newUser = userService.save(user);
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
