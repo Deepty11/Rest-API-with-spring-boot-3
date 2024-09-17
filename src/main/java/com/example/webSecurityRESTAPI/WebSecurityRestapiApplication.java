@@ -15,11 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityRestapiApplication {
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
 			userService.save(new User("Rehnuma Reza", "bakbik", "1234", Role.ADMIN));

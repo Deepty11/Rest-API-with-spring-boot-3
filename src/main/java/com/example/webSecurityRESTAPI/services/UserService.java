@@ -13,19 +13,17 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-
-    private final PasswordEncoder passwordEncoder;
 
     public User save(User user) {
         if(userRepository.existsUserByUserName(user.getUsername())) {
@@ -33,7 +31,7 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
 

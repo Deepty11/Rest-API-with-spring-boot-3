@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+//@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping
+    @GetMapping("/users")
     @RolesAllowed({"ADMIN"})
     public ResponseEntity<List<User>> getAllUser() {
         List<User> users = userService.getAllUsers();
